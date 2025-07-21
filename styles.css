@@ -1,0 +1,73 @@
+body{
+    background-color: bisque;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative; /* Essential for z-index and content layering */
+    min-height: 100vh;
+}
+
+/* #video-background {
+    position: fixed;
+    width: auto;
+    height: 125%;
+    min-width: 100%;    /* Ensure it's at least 100% of viewport width */
+    /* min-height: 100%;  */
+    /* z-index: -1; Place the video behind other content */
+    /* Optional: blur effect */
+    /* filter: blur(5px); */
+/* }  */
+
+#welcome-message{
+    text-align: center;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size:5em;
+    margin-top:5%;
+}
+
+.tiles{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.tiles-container{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15vh;
+}
+
+.tile{
+     background-image: url("./pic2.png");
+    background-size: cover;
+    width: 200px;
+    height: 200px;
+    border: none;
+    border-radius: 10px;
+    margin: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(255,0,0,5);
+}
+
+.tiles-container:hover{
+    transform: scale(1.5);
+}
+
+.tile:hover{
+    box-shadow: 0 6px 12px rgba(0,0,255,5);
+}
+
+.tile-label{
+    font-size:x-large;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#taptaptapstile{
+    background-image: url("./ttt.png");
+}
+
+#thinkstile{
+    opacity: 0.5;
+}
+
