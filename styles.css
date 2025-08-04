@@ -104,3 +104,15 @@ body{
     top: 0px;
     position: absolute;
 }
+
+.consent-button{
+    border-radius: 2em;
+    width: 120px;
+    height: 40px;
+    background-color: #0219ac;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 14px;
+}
