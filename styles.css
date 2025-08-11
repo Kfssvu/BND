@@ -21,7 +21,8 @@ body{
 
 #welcome-message{
     text-align: center;
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family:'playfair display', serif;
+    font-weight: bold;
     font-size:5em;
     margin-top:5%;
 }
@@ -39,7 +40,7 @@ body{
 }
 
 .tile{
-     background-image: url("./pic2.png");
+    background-image: url("./pic2.png");
     background-size: cover;
     width: 200px;
     height: 200px;
@@ -60,7 +61,7 @@ body{
 
 .tile-label{
     font-size:x-large;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'playfair display', serif;
 }
 
 #taptaptapstile{
@@ -115,4 +116,21 @@ body{
     cursor: pointer;
     margin: 5px;
     font-size: 14px;
+}
+
+@media screen and (max-width:600px){ 
+    body{
+        width:100%;
+        overflow-x: hidden;
+    }
+    #welcome-message{
+        margin-top: 20%;
+        font-size: 3em;
+    }
+    #tiles-container{
+        width: auto;
+    }
+}
+@media screen and (max-width:700px){ 
+    
 }
