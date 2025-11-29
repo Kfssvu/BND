@@ -1,11 +1,21 @@
 body{
-    background-color: bisque;
+    /* background-color: bisque; */
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative; /* Essential for z-index and content layering */
     min-height: 100vh;
+    overflow-x: hidden;
+    background: linear-gradient(-45deg, rgb(249, 191, 120) 20%, #ffffff 100%);
+}
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    filter: blur(8px);
+    z-index: -1;
 }
 
 /* #video-background {
@@ -21,10 +31,21 @@ body{
 
 #welcome-message{
     text-align: center;
-    font-family:'playfair display', serif;
+    font-family:'Arial Black', Gadget, sans-serif;
     font-weight: bold;
     font-size:5em;
     margin-top:5%;
+    animation: welcomePulse 2s infinite;
+}
+@keyframes welcomePulse {
+    0%, 100% {
+        transform: scale(1);
+        color: #000;
+    }
+    50% {
+        transform: scale(1.1);
+        color: #052ae2;
+    }
 }
 
 .tiles{
@@ -40,7 +61,7 @@ body{
 }
 
 .tile{
-    background-image: url("./pic2.png");
+    background-image: url("./thinks-logo.png");
     background-size: cover;
     width: 200px;
     height: 200px;
@@ -61,16 +82,13 @@ body{
 
 .tile-label{
     font-size:x-large;
-    font-family: 'playfair display', serif;
+    font-family: 'Arial Black', Gadget, sans-serif;
 }
 
 #taptaptapstile{
     background-image: url("./ttt.png");
 }
 
-#thinkstile{
-    opacity: 0.5;
-}
 #bar{
     bottom: 0% ;
     position: fixed;
@@ -79,7 +97,7 @@ body{
     color: white;
     width: 100%;
     height: 15%;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Arial Black', Gadget, sans-serif;
     text-align: left;
 }
 
