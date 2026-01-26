@@ -1,51 +1,111 @@
-body{
-    /* background-color: bisque; */
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative; /* Essential for z-index and content layering */
-    min-height: 100vh;
-    overflow-x: hidden;
-    background: linear-gradient(-45deg, rgb(249, 191, 120) 20%, #ffffff 100%);
+:root {
+  /* Softer "Neon" palette: Easier on the eyes, high contrast but not vibrating */
+  --arcade-gold: #FFD700;
+  --retro-blue: #0056b3;
+  --bg-dark: #121218;
+  --text-white: #ffffff;
+  --soft-glow: 0 0 15px rgba(255, 215, 0, 0.4);
+  --grid-size: 60px;
+  --grid-color: rgba(0, 242, 255, 0.1);
+  --pulse-color: #00f2ff;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  /* Dark background reduces glare, which helps with cataracts/eye fatigue */
+  background-color: var(--bg-dark);
+  /* A very subtle, static grid - provides structure without movement */
+  background-image: 
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+  /* Thick, clean sans-serif for maximum readability */
+  font-family: 'Segoe UI', Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+#welcome-message {
+  text-align: center;
+  /* Large, but not overwhelming */
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 800;
+  color: var(--arcade-gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  
+  /* Thick border around text makes it much easier to read against any background */
+  -webkit-text-stroke: 1px rgba(0,0,0,0.5);
+  
+  /* Gentle, slow glow instead of a fast pulse */
+  text-shadow: var(--soft-glow);
+  animation: gentleWarmth 4s ease-in-out infinite;
+  
+  /* Ensure text doesn't move too much (prevents motion sickness) */
+  transform-origin: center;
+}
+
+@keyframes gentleWarmth {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.02);
+    filter: brightness(1.2);
+    text-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
+  }
+}
+
 body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: inherit;
-    filter: blur(8px);
-    z-index: -1;
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  
+  /* Creates multiple small neon segments */
+  background-image: 
+    linear-gradient(0deg, 
+        transparent 0%, 
+        transparent 45%, 
+        var(--pulse-color) 50%, 
+        transparent 55%, 
+        transparent 100%
+    ),
+    linear-gradient(90deg, 
+        transparent 0%, 
+        transparent 45%, 
+        var(--pulse-color) 50%, 
+        transparent 55%, 
+        transparent 100%
+    );
+
+  /* The background-size here controls how many pulses appear */
+  /* 300px means a pulse every 5 grid squares */
+  background-size: 300px 300px;
+  
+  /* Masking ensures the pulses ONLY appear on the grid lines */
+  mask-image: 
+    linear-gradient(black 1px, transparent 1px),
+    linear-gradient(90deg, black 1px, transparent 1px);
+  mask-size: var(--grid-size) var(--grid-size);
+  
+  animation: movePulses 10s linear infinite;
+  opacity: 0.6;
 }
 
-/* #video-background {
-    position: fixed;
-    width: auto;
-    height: 125%;
-    min-width: 100%;    /* Ensure it's at least 100% of viewport width */
-    /* min-height: 100%;  */
-    /* z-index: -1; Place the video behind other content */
-    /* Optional: blur effect */
-    /* filter: blur(5px); */
-/* }  */
-
-#welcome-message{
-    text-align: center;
-    font-family:'Arial Black', Gadget, sans-serif;
-    font-weight: bold;
-    font-size:5em;
-    margin-top:5%;
-    animation: welcomePulse 2s infinite;
-}
-@keyframes welcomePulse {
-    0%, 100% {
-        transform: scale(1);
-        color: #000;
-    }
-    50% {
-        transform: scale(1.1);
-        color: #052ae2;
-    }
+@keyframes movePulses {
+  from {
+    background-position: 0px 0px;
+  }
+  to {
+    background-position: 300px 300px;
+  }
 }
 
 .tiles{
@@ -58,6 +118,8 @@ body::before {
     flex-direction: column;
     align-items: center;
     margin: 15vh;
+    color: white;;
+    z-index: 10000;
 }
 
 .tile{
@@ -88,40 +150,70 @@ body::before {
 #taptaptapstile{
     background-image: url("./ttt.png");
 }
-
-#bar{
-    bottom: 0% ;
+#bar {
+    bottom: 0;
     position: fixed;
-    background-color: rgb(87, 87, 87);
-    opacity: 0.5;
+    /* Solid dark background for high contrast */
+    background-color: #1a1a24;
+    border-top: 4px solid var(--arcade-gold);
     color: white;
     width: 100%;
-    height: 15%;
-    font-family: 'Arial Black', Gadget, sans-serif;
-    text-align: left;
+    /* Use min-height to ensure it doesn't get too small on mobile */
+    min-height: 120px; 
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 20px;
+    z-index: 100;
+    /* Transition for the whole bar if needed */
+    transition: background-color 0.3s ease;
 }
 
-#bar:hover{
-    opacity: 1;
+/* Removed 0.5 opacity - consistency is key for cognitive accessibility */
+#bar:hover {
+    background-color: #252533;
 }
 
-#bar img{
-    margin-top:20px;
-    margin-bottom: 2%;
-    margin-left: 1%;
-    
-    width:10vh;
-    height: 10vh;
+/* Individual container for icon + label to keep them grouped */
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
-#bar img:hover{
-   transform: scale(1.1);
-   transition: transform 0.3s ease-in-out;
+#bar img {
+    width: 70px;   /* Consistent sizing */
+    height: 70px;
+    object-fit: contain;
+    /* Added a slight glow to icons to make them feel "arcade" */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+    transition: transform 0.3s ease-in-out, filter 0.3s ease;
+    margin-left: 15px;
 }
 
-#bar label{
-    top: 0px;
-    position: absolute;
+/* When hovering near the button, make it react clearly */
+.nav-item:hover img {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 10px var(--arcade-gold));
+}
+
+#bar label {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #fff;
+    margin-top: 8px; /* Space between icon and text */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    pointer-events: none; /* Let the click go through to the container */
+}
+
+/* Active state: feedback when the button is clicked/pressed */
+.nav-item:active {
+    transform: scale(0.95);
 }
 
 .consent-button{
