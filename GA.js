@@ -17,7 +17,7 @@ function loadGA() {
 
 function setGameEnabled(enabled) {
     // Disable or enable all game buttons
-    const buttons = document.querySelectorAll('.level-button');
+    const buttons = document.querySelectorAll('.tile');
     buttons.forEach(btn => {
         if (btn.id !== 'consent-accept') {
             btn.disabled = !enabled;
@@ -43,7 +43,16 @@ function acceptConsent() {
     setGameEnabled(true);
     loadGA();
 }
+
+function rejectConsent() {
+    localStorage.setItem('ga_consent', 'false');
+    document.getElementById('consent-popup').style.display = 'none';
+    setGameEnabled(true);
+    loadGA();
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     showConsentPopup();
     document.getElementById('consent-accept').onclick = acceptConsent;
+    document.getElementById('consent-reject').onclick = rejectConsent;
 });
