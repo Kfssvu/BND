@@ -19,22 +19,25 @@ function setGameEnabled(enabled) {
     // Disable or enable all game buttons
     const buttons = document.querySelectorAll('.tile');
     buttons.forEach(btn => {
-        if (btn.id !== 'consent-accept') {
-            btn.disabled = !enabled;
-            btn.style.opacity = enabled ? '1' : '0.5';
-            btn.style.pointerEvents = enabled ? 'auto' : 'none';
-        }
+        // tiles are actual <button> elements so disable them when needed
+        btn.disabled = !enabled;
+        btn.style.opacity = enabled ? '1' : '0.5';
+        btn.style.pointerEvents = enabled ? 'auto' : 'none';
     });
     // Optionally, disable other interactive elements here
 }
 
 function showConsentPopup() {
-    if (!localStorage.getItem('ga_consent')) {
+    const consent = localStorage.getItem('ga_consent');
+    if (consent === null) {
         document.getElementById('consent-popup').style.display = 'block';
         setGameEnabled(false);
-    } else {
+    } else if (consent === 'true') {
         setGameEnabled(true);
         loadGA();
+    } else {
+        // user previously rejected: enable games but do not load GA
+        setGameEnabled(true);
     }
 }
 function acceptConsent() {
@@ -47,8 +50,8 @@ function acceptConsent() {
 function rejectConsent() {
     localStorage.setItem('ga_consent', 'false');
     document.getElementById('consent-popup').style.display = 'none';
+    // Do not load GA when the user rejects; enable games.
     setGameEnabled(true);
-    loadGA();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
