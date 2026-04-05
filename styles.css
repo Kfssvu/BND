@@ -182,7 +182,7 @@ body::before {
 /* Individual container for icon + label to keep them grouped */
 .nav-item {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   margin: 6px 12px;
   cursor: pointer;
