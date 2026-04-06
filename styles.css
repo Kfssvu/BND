@@ -156,6 +156,9 @@ body::before {
 #taptaptapstile{
     background-image: url("./ttt.png");
 }
+#countstile{
+    background-image: url("./pic2.png");
+}
 #bar {
   bottom: 0;
   position: fixed;
