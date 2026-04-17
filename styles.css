@@ -134,7 +134,7 @@ body::before {
   width: clamp(140px, 22vw, 220px);
   height: clamp(140px, 22vw, 220px);
   border: none;
-  border-radius: 10px;
+  border-radius: 35px;
   margin: 0;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0,0,0,0.6);
