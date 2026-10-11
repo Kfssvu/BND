@@ -1,269 +1,401 @@
 :root {
-  /* Softer "Neon" palette: Easier on the eyes, high contrast but not vibrating */
-  --arcade-gold: #FFD700;
-  --retro-blue: #0056b3;
-  --bg-dark: #121218;
-  --text-white: #ffffff;
-  --soft-glow: 0 0 15px rgba(255, 215, 0, 0.4);
-  --grid-size: 60px;
-  --grid-color: rgba(0, 242, 255, 0.1);
-  --pulse-color: #00f2ff;
+  --bg-deep: #12141a;
+  --bg-card: #1c202a;
+  --bg-card-hover: #232834;
+  --accent-gold: #e2c082;
+  --accent-gold-hover: #f0cf95;
+  --text-main: #f5f6f8;
+  --text-sub: #9ea8b6;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  padding: 0;
-  /* Ensure content isn't hidden behind the bottom bar */
-  padding-bottom: 180px;
+  padding: 0 16px 160px 16px; /* Generous bottom spacing for the larger bar */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  /* Dark background reduces glare, which helps with cataracts/eye fatigue */
-  background-color: var(--bg-dark);
-  /* A very subtle, static grid - provides structure without movement */
-  background-image: 
-    linear-gradient(var(--grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-  background-size: var(--grid-size) var(--grid-size);
-  /* Thick, clean sans-serif for maximum readability */
-  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: var(--bg-deep);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-main);
   overflow-x: hidden;
 }
 
-#welcome-message {
-  text-align: center;
-  /* Large, but not overwhelming */
-  font-size: clamp(2.5rem, 7vw, 4.5rem);
-  font-weight: 800;
-  color: var(--arcade-gold);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  
-  /* Thick border around text makes it much easier to read against any background */
-  -webkit-text-stroke: 1px rgba(0,0,0,0.5);
-  
-  /* Gentle, slow glow instead of a fast pulse */
-  text-shadow: var(--soft-glow);
-  animation: gentleWarmth 4s ease-in-out infinite;
-  
-  /* Ensure text doesn't move too much (prevents motion sickness) */
-  transform-origin: center;
-}
-
-@keyframes gentleWarmth {
-  0%, 100% {
-    transform: scale(1);
-    filter: brightness(1);
-  }
-  50% {
-    transform: scale(1.02);
-    filter: brightness(1.2);
-    text-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
-  }
-}
-
-body::before {
-  content: "";
+#top-bar {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  
-  /* Creates multiple small neon segments */
-  background-image: 
-    linear-gradient(0deg, 
-        transparent 0%, 
-        transparent 45%, 
-        var(--pulse-color) 50%, 
-        transparent 55%, 
-        transparent 100%
-    ),
-    linear-gradient(90deg, 
-        transparent 0%, 
-        transparent 45%, 
-        var(--pulse-color) 50%, 
-        transparent 55%, 
-        transparent 100%
-    );
-
-  /* The background-size here controls how many pulses appear */
-  /* 300px means a pulse every 5 grid squares */
-  background-size: 300px 300px;
-  
-  /* Masking ensures the pulses ONLY appear on the grid lines */
-  mask-image: 
-    linear-gradient(black 1px, transparent 1px),
-    linear-gradient(90deg, black 1px, transparent 1px);
-  mask-size: var(--grid-size) var(--grid-size);
-  
-  animation: movePulses 10s linear infinite;
-  opacity: 0.6;
+  top: 20px;
+  right: 24px;
+  z-index: 8000;
 }
 
-@keyframes movePulses {
-  from {
-    background-position: 0px 0px;
+/* Hide default Google UI artifacts & top banner bar */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+}
+
+body {
+  top: 0px !important;
+  position: relative;
+}
+
+/* Clean accessible hiding helper */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Sleek dark select dropdown */
+#language-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 9px 34px 9px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: all 0.2s ease;
+
+  /* Custom gold arrow matching the dark palette */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e2c082'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
+}
+
+#language-select:hover {
+  background-color: var(--bg-card-hover);
+  border-color: rgba(226, 192, 130, 0.4);
+}
+
+#language-select:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 2px rgba(226, 192, 130, 0.2);
+}
+
+/* Dropdown option items in browsers that support it */
+#language-select option {
+  background-color: #1a1d26;
+  color: var(--text-main);
+  padding: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  #top-bar {
+    top: 14px;
+    right: 14px;
   }
-  to {
-    background-position: 300px 300px;
+  #language-select {
+    padding: 7px 28px 7px 12px;
+    font-size: 0.82rem;
   }
 }
 
-.tiles{
+#google_translate_element select {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+/* Header */
+#welcome-message {
+  margin: 20px 0 10px 0;
+  text-align: center;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: var(--accent-gold);
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Tiles grid */
+.tiles {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(12px, 3vw, 28px);
+  gap: clamp(16px, 3vw, 32px);
   justify-content: center;
-  align-items: center;
-  padding: 4vh 2vw;
+  align-items: stretch;
+  max-width: 960px;
+  width: 100%;
+  padding: 20px 0;
 }
 
-.tiles-container{
+/* Individual card */
+.tiles-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0;
-  color: white;
-  z-index: 1000;
+  justify-content: flex-start;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 24px 20px;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+  width: clamp(200px, 26vw, 260px);
+  text-align: center;
 }
 
-.tile{
-  background-image: url("./thinks-logo.png");
+.tiles-container:hover {
+  transform: translateY(-4px);
+  background-color: var(--bg-card-hover);
+  border-color: rgba(226, 192, 130, 0.3);
+}
+
+/* Game icon buttons */
+.tile {
   background-size: cover;
-  width: clamp(140px, 22vw, 220px);
-  height: clamp(140px, 22vw, 220px);
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 130px;
+  height: 130px;
   border: none;
-  border-radius: 35px;
+  border-radius: 18px;
   margin: 0;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-  transition: transform 200ms ease, box-shadow 200ms ease;
-  will-change: transform;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.tile:hover{
-  transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+.tile:hover:not(:disabled) {
+  transform: scale(1.04);
 }
 
-.tile-label{
-  font-size: clamp(1rem, 2.2vw, 1.3rem);
-  font-family: 'Arial Black', Gadget, sans-serif;
-  margin-top: 0.6rem;
+.tile:disabled {
+  filter: grayscale(80%);
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
-#taptaptapstile{
-    background-image: url("./ttt.png");
+#taptaptapstile { background-image: url("./ttt.png"); }
+#thinkstile { background-image: url("./thinks-logo.png"); }
+#countstile { background-image: url("./countslogo.png"); }
+
+/* Card title & subtitle */
+.tile-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 16px;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
 }
-#countstile{
-    background-image: url("./pic2.png");
+
+.tile-subtext {
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  line-height: 1.4;
+  margin: 0;
 }
+
+/* Enlarged Partner & Nav bar */
 #bar {
   bottom: 0;
+  left: 0;
   position: fixed;
-  background-color: #1a1a24;
-  border-top: 4px solid var(--arcade-gold);
-  color: white;
+  background-color: #161822;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-sub);
   width: 100%;
-  min-height: 72px;
+  min-height: 84px; /* Increased height */
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
-  padding: 8px 12px;
-  z-index: 9998;
-  transition: background-color 0.3s ease;
-  overflow-x: auto; 
-  white-space: nowrap; 
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch; 
+  justify-content: space-between;
+  padding: 12px 32px;
+  z-index: 9000;
 }
 
-#bar::-webkit-scrollbar {
-    display: none;
-}
-
-/* Removed 0.5 opacity - consistency is key for cognitive accessibility */
-#bar:hover {
-    background-color: #252533;
-}
-
-/* Individual container for icon + label to keep them grouped */
-.nav-item {
+.bar-left, .bar-right {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  margin: 6px 12px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+  gap: 18px;
 }
 
-#bar img {
-  width: 56px;
-  height: 56px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
-  transition: transform 0.3s ease-in-out, filter 0.3s ease;
-  margin-left: 0;
-}
-
-/* When hovering near the button, make it react clearly */
-.nav-item:hover img {
-  transform: scale(1.12);
-  filter: drop-shadow(0 0 10px var(--arcade-gold));
-}
-
-#bar > label {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  font-weight: bold;
-  font-size: 1rem;
-  color: #fff;
-  margin: 0 8px 0 12px;
+.bar-title {
+  font-size: 0.95rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  align-self: center;
-  pointer-events: none;
+  color: var(--text-sub);
 }
 
-/* Active state: feedback when the button is clicked/pressed */
-.nav-item:active {
-    transform: scale(0.95);
+.nav-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.consent-button{
-    border-radius: 2em;
-    width: 120px;
-    height: 40px;
-    background-color: #0219ac;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin: 5px;
-    font-size: 14px;
+.nav-item:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
 }
 
-/* Consent popup responsiveness */
-#consent-popup{
+/* Bigger partner logos */
+#bar img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.nav-link {
+  color: var(--accent-gold);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(226, 192, 130, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: rgba(226, 192, 130, 0.1);
+  color: var(--accent-gold-hover);
+}
+
+/* Consent popup */
+#consent-popup {
   box-sizing: border-box;
-  width: 94%;
-  max-width: 720px;
-  margin: 0 auto 12px auto;
-  left: 0;
-  right: 0;
-  padding: 18px;
+  position: fixed;
+  z-index: 9999;
+  left: 50%;
+  bottom: 100px; /* Sits above the enlarged bar */
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 620px;
+  background: #1f232d;
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 18px 22px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
-@media screen and (max-width:900px){
-  body{ overflow-x: hidden; }
-  #welcome-message{ margin-top: 12vh; font-size: clamp(2rem, 7.5vw, 3.5rem); }
-  .tiles{ padding: 3vh 4vw; }
-  #bar{ justify-content: center; padding: 12px; }
+#consent-popup a {
+  color: var(--accent-gold);
+  text-decoration: underline;
 }
 
-@media screen and (max-width:480px){
-  .tiles{ flex-direction: column; }
-  #welcome-message{ margin-top: 10vh; font-size: clamp(1.6rem, 9vw, 2.6rem); }
-  body{ padding-bottom: 200px; }
+.consent-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.consent-button {
+  border-radius: 8px;
+  padding: 9px 22px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+#consent-accept {
+  background-color: var(--accent-gold);
+  color: #12141a;
+}
+
+#consent-accept:hover {
+  background-color: var(--accent-gold-hover);
+}
+
+#consent-reject {
+  background-color: transparent;
+  color: var(--text-sub);
+  border: 1px solid var(--border-subtle);
+}
+
+#consent-reject:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+/* About Page specific layout */
+.about-card {
+  max-width: 700px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 36px 32px;
+  margin-top: 30px;
+  box-shadow: var(--shadow-soft);
+  line-height: 1.7;
+}
+
+.about-card h2 {
+  color: var(--accent-gold);
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+}
+
+.about-card p {
+  color: var(--text-sub);
+  font-size: 1.05rem;
+  margin-bottom: 18px;
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 700px) {
+  #bar {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
+    min-height: auto;
+  }
+  
+  body {
+    padding-bottom: 180px;
+  }
+
+  #bar img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .tiles-container {
+    width: 100%;
+    max-width: 280px;
+  }
+} 
+
+a.tiles-container,
+a.tiles-container:hover,
+a.tiles-container:focus,
+a.tiles-container * {
+  text-decoration: none !important;
+  color: inherit;
 }

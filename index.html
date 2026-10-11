@@ -12,43 +12,88 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <!-- <video autoplay muted loop  playsinline id="video-background">
-        <source src="taptaptapdemo.mp4" type="video/mp4">
-        <source src="taptaptapdemo.webm" type="video/webm">
-        Your browser does not support the video tag.
-        </video> -->
-        <div id="consent-popup" style="display:none; position:fixed; z-index:9999; left:0; right:0; bottom:0; background:#fff; border-top:1px solid #ccc; padding:20px; box-shadow:0 -2px 8px rgba(0,0,0,0.1); text-align:center;">
-        <span>
-            This site uses Google Analytics to understand how visitors interact. By continuing, you consent to this use. 
-            <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Learn more</a>.
-        </span>
-        <button id="consent-accept" class="consent-button">Accept</button>
-        <button id="consent-reject" class="consent-button">Reject</button>
+        <!-- Top Utility Bar: Custom Dark Language Switcher -->
+        <header id="top-bar">
+            <div class="custom-translate-wrapper">
+                <label for="language-select" class="visually-hidden">Language</label>
+                <select id="language-select" onchange="triggerGoogleTranslate(this.value)">
+                    <option value="en">🌐 English</option>
+                    <option value="ms">Bahasa Melayu</option>
+                    <option value="zh-CN">中文 (Chinese)</option>
+                    <option value="ta">தமிழ் (Tamil)</option>
+                </select>
+            </div>
+            <!-- Hidden Google container used only to power the translations -->
+            <div id="google_translate_element" style="display:none;"></div>
+        </header>
+
+        <!-- Consent Popup -->
+        <div id="consent-popup" style="display:none;">
+            <span>
+                This site uses Google Analytics to understand how visitors interact. By continuing, you consent to this use. 
+                <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Learn more</a>.
+            </span>
+            <div class="consent-actions">
+                <button id="consent-accept" class="consent-button">Accept</button>
+                <button id="consent-reject" class="consent-button">Reject</button>
+            </div>
         </div>
+
         <h1 id="welcome-message">Welcome to BND Games</h1>
+
+        <!-- Game Cards with Subtext -->
         <div class="tiles">
-            <div class="tiles-container">
-                <button class="tile" id="taptaptapstile" onclick="window.location.href='https://bryantanjiaxiong.github.io/fasts/'"></button>
-                <label class="tile-label">tapTAPtap's</label>
-            </div>
-            <div class="tiles-container">
-                <button class="tile" id="thinkstile" onclick="window.location.href='https://bryantanjiaxiong.github.io/thinks/'"></button>
-                <label class="tile-label">Think's</label>
-            </div>
-            <div class="tiles-container">
-                <button class="tile" id="countstile" disabled></button>
-                <label class="tile-label">Count's</label>
-            </div>
-        </div>
-        <div id="bar">
-            <label>Our partners:</label>
-            <a class="nav-item" href="https://dyllontjj.wixsite.com/dyta/">
-                <img src="./D.jpg">
+            <!-- Card 1: Clickable Link -->
+            <a href="https://bryantanjiaxiong.github.io/fasts?consent=1" class="tiles-container" aria-label="Play tapTAPtap's">
+                <div class="tile" id="taptaptapstile"></div>
+                <span class="tile-label">tapTAPtap's</span>
+                <p class="tile-subtext">Fast-paced reaction test to keep hand-eye reflexes sharp.</p>
             </a>
-            <a class="nav-item" href="https://myprr.com.my">
-                <img src="./PRR logo.png">
+
+            <!-- Card 2: Clickable Link -->
+            <a href="https://bryantanjiaxiong.github.io/thinks?consent=1" class="tiles-container" aria-label="Play Think's">
+                <div class="tile" id="thinkstile"></div>
+                <span class="tile-label">Think's</span>
+                <p class="tile-subtext">Relaxing memory and focus puzzles to challenge your mind daily.</p>
+            </a>
+
+            <!-- Card 3: Disabled Card (Not a link) -->
+            <a href="https://bryantanjiaxiong.github.io/Count?consent=1" class="tiles-container" aria-label="Play Count's">
+                <div class="tile" id="countstile"></div>
+                <span class="tile-label">Count's</span>
+                <p class="tile-subtext">Simple number and mental math exercises.</p>
             </a>
         </div>
+
+        <!-- Enlarged Partner & Navigation Bar -->
+        <nav id="bar">
+            <div class="bar-left">
+                <span class="bar-title">Our partners:</span>
+                <a class="nav-item" href="https://dyllontjj.wixsite.com/dyta/" target="_blank" rel="noopener">
+                    <img src="./D.jpg" alt="Dyta">
+                </a>
+                <a class="nav-item" href="https://myprr.com.my" target="_blank" rel="noopener">
+                    <img src="./PRR logo.png" alt="PRR">
+                </a>
+            </div>
+            <div class="bar-right">
+                <a href="about.html" class="nav-link">About Us</a>
+            </div>
+        </nav>
+
+        <!-- Google Translate Widget Script -->
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    includedLanguages: 'en,ms,zh-CN,ta',
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                    autoDisplay: false
+                }, 'google_translate_element');
+            }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
         <script src="GA.js"></script>
     </body>
 </html>
